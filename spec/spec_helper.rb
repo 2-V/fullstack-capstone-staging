@@ -13,7 +13,58 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'mongoid-rspec'
+require 'capybara/rspec'
+require_relative 'support/database_cleaners.rb'
+require_relative 'support/api_helper.rb'
+
+
+
+
+browser=:chrome
+Capybara.register_driver :selenium do |app|
+  if browser == :chrome
+    Capybara::Selenium::Driver.new(app, :browser=>:chrome)
+  else
+    if ENV['FIREFOX_BINARY_PATH']
+      require 'selenium/webdriver'
+      #set FIREFOX_BINARY_PATH=/opt/firefox_dev/firefox
+      Selenium::WebDriver::Firefox::Binary.path=ENV['FIREFOX_BINARY_PATH']
+    end
+    Capybara::Selenium::Driver.new(app, :browser=>:firefox)
+  end
+end
+
+require 'capybara/poltergeist'
+#set the default driver
+Capybara.configure do |config|
+  config.default_driver = :rack_test
+  config.default_wait_time = 5
+
+  #used when :js=>true
+  config.javascript_driver = :selenium
+end
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new( app,
+    phantomjs_logger: StringIO.new,
+    )
+end
+
+if ENV["COVERAGE"]
+  require 'simplecov'
+  SimpleCov.start do
+    add_filter "/spec"
+    add_filter "/config"
+    add_group "cities", ["city"]
+    add_group "states", ['state']
+  end
+end
+
 RSpec.configure do |config|
+  config.include Mongoid::Matchers, :orm => :mongoid
+  config.include ApiHelper, :type=>:request
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

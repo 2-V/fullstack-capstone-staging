@@ -1,6 +1,6 @@
 class CitiesController < ApplicationController
   before_action :set_city, only: [:show, :update, :destroy]
-
+  wrap_parameters :city
 
   def index
     @cities = City.all

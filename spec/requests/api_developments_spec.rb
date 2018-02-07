@@ -1,13 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "ApiDevelopments", type: :request do
+  include_context "db_cleanup_each"
 	def parsed_body
 		JSON.parse(response.body)
 	end
 
   describe "RDBMS-backed" do
-  	before(:each) { City.delete_all}
-  	after(:each) { City.delete_all }
 
   	it "create RDBMS-backed model" do
   		object=City.create(:name=>"test")
@@ -24,8 +23,6 @@ RSpec.describe "ApiDevelopments", type: :request do
   end
 
   describe "MongoDB-backed" do
-  	before(:each) { State.delete_all}
-  	after(:each) { State.delete_all }
 
   	it "create MongoDB-backed model" do
   		object=State.create(:name=>"test")
