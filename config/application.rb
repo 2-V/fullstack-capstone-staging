@@ -51,7 +51,7 @@ module CapstoneDemo
         :controller_specs => false,
         :helper_specs => false,
         :view_specs => false,
-        :request_specs => false,
+        :request_specs => true,
         :policy_specs => false,
         :feature_specs => true
     end
