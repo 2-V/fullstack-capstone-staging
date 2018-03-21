@@ -1,0 +1,25 @@
+<div>
+	<h3>Bars</h3>
+	<span>(from spa-demo/bars/bars.html)</span>
+
+	<form>
+		<div>
+			<label>Name:</label>
+			<input name="name" ng-model="barsVM.bar.name" required="required" />
+		</div>
+
+		<button ng-if="!barsVM.bar.id" type="submit" ng-click="barsVM.create()">Create Bar</button>
+
+		<div data-ng-if="barsVM.bar.id">
+			<button type="submit" ng-click="barsVM.update()">Update Bar</button>
+			<button type="submit" ng-click="barsVM.remove()">Delete Bar</button>
+		</div>
+	</form>
+
+
+	<ul>
+		<li ng-repeat="bar in barsVM.bars | orderBy:'name'">
+			<a ng-click="barsVM.edit(bar)">{{bar.name}}</a>
+		</li>
+	</ul>
+</div>

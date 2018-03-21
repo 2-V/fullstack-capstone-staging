@@ -57,7 +57,7 @@
 			function remove() {
 				vm.foo.$delete()
 					.then(function(response){
-						// will maintain state with server
+						// will maintain bar with server
 						vm.foos = Foo.query(); 
 						//remove the element from local array
 						// removeElement(vm.foos, vm.foo);

@@ -57,7 +57,7 @@
 			function remove() {
 				vm.city.$delete()
 					.then(function(response){
-						// will maintain state with server
+						// will maintain bar with server
 						vm.cities = City.query(); 
 						//remove the element from local array
 						// removeElement(vm.cities, vm.city);

@@ -2,15 +2,15 @@
 	"use strict";
 
 	angular
-		.module("spa-demo.states")
-		.controller("spa-demo.states.StatesController", StatesController);
+		.module("spa-demo.bars")
+		.controller("spa-demo.bars.BarsController", BarsController);
 
-		StatesController.$inject = ["spa-demo.states.State"];
+		BarsController.$inject = ["spa-demo.bars.Bar"];
 
-		function StatesController(State) {
+		function BarsController(Bar) {
 			var vm = this;
-			vm.states;
-			vm.state;
+			vm.bars;
+			vm.bar;
 			vm.edit = edit;
 			vm.create = create;
 			vm.update = update;
@@ -20,12 +20,12 @@
 			return;
 
 			function activate(){
-				newState();
-				vm.states = State.query();
+				newBar();
+				vm.bars = Bar.query();
 			}
 
-			function newState(){
-				vm.state = new State();
+			function newBar(){
+				vm.bar = new Bar();
 			}
 
 			function handleError(response) {
@@ -33,21 +33,21 @@
 			}
 
 			function edit(object) {
-				vm.state = object;
+				vm.bar = object;
 			}
 
 			function create(){
-				vm.state.$save()
+				vm.bar.$save()
 					.then(function(response){
 						console.log(response);
-						vm.states.push(vm.state);
-						newState();
+						vm.bars.push(vm.bar);
+						newBar();
 					})
 					.catch(handleError);
 			}
 
 			function update(){
-				vm.state.$update()
+				vm.bar.$update()
 					.then(function(response){
 						console.log(response);
 					})
@@ -55,13 +55,13 @@
 			}
 
 			function remove() {
-				vm.state.$delete()
+				vm.bar.$delete()
 					.then(function(response){
-						// will maintain state with server
-						vm.states = State.query(); 
+						// will maintain bar with server
+						vm.bars = Bar.query(); 
 						//remove the element from local array
-						// removeElement(vm.states, vm.state);
-						newState();
+						// removeElement(vm.bars, vm.bar);
+						newBar();
 					})
 					.catch(handleError);
 			}

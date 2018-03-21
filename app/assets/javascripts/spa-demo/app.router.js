@@ -5,13 +5,13 @@
 		.module("spa-demo")
 		.config(RouterFunction);
 
-		RouterFunction.$inject = ["$stateProvider",
+		RouterFunction.$inject = ["$barProvider",
 								  "$urlRouterProvider",
 								  "spa-demo.APP_CONFIG"];
 
-		function RouterFunction($stateProvider, $urlRouterProvider, APP_CONFIG) {
-			$stateProvider
-			.state("home",{
+		function RouterFunction($barProvider, $urlRouterProvider, APP_CONFIG) {
+			$barProvider
+			.bar("home",{
 				url: "/",
 				templateUrl: APP_CONFIG.main_page_html,
 				// controller: ,

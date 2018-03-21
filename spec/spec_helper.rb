@@ -58,7 +58,7 @@ if ENV["COVERAGE"]
     add_filter "/spec"
     add_filter "/config"
     add_group "cities", ["city"]
-    add_group "states", ['state']
+    add_group "bars", ['bar']
     add_group "foos", ['foo']
   end
 end
