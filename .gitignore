@@ -12,6 +12,7 @@
 !/log/.keep
 /tmp
 
-/client
+/client/build
 /bower_components
-gulpfile.js
+/node_modules
+/coverage

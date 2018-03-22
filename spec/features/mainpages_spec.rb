@@ -14,8 +14,8 @@ RSpec.feature "Mainpages", type: :feature, :js=>true do
   it "displays the main application page" do
   	expect(page).to have_content("Sample App (from spa-demo/pages/main.html)")
   end
-  it "displays the cities title" do
-  	expect(page).to have_content("Cities (from spa-demo/cities/cities.html)")
+  it "displays the foos title" do
+  	expect(page).to have_content("Foos (from spa-demo/foos/foos.html)")
   end
 
 end

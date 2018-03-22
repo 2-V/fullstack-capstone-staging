@@ -23,7 +23,7 @@
 		return directive;
 
 		function link(scope, element, attrs) {
-			console.log("CitiesDirective", scope);
+			console.log("BarsDirective", scope);
 		}
 	}
 
