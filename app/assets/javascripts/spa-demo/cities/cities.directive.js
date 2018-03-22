@@ -5,7 +5,7 @@
 		.module("spa-demo.cities")
 		.directive("sdCities", CitiesDirective);
 
-	CitiesDirective.$inject = ["spa-demo.APP_CONFIG"];
+	CitiesDirective.$inject = ["spa-demo.config.APP_CONFIG"];
 
 	function CitiesDirective(APP_CONFIG) {
 		var directive = {
