@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   get 'authn/whoami'
 
   get 'authn/checkme'
@@ -9,6 +10,8 @@ Rails.application.routes.draw do
   scope :api, defaults: {format: :json} do
     resources :bars, except: [:new, :edit]
     resources :foos, except: [:new, :edit]
+    resources :images, except: [:new, :edit]
+    resources :things, except: [:new, :edit]
   end
   
   get '/ui' => 'ui#index'
