@@ -1,4 +1,5 @@
 FactoryGirl.define do
+
   factory :thing do
   	name { Faker::Commerce.product_name }
   	sequence(:description) {|n| n%5==0 ? nil : Faker::Lorem.paragraphs.join}
@@ -16,3 +17,4 @@ FactoryGirl.define do
   end
 
 end
+

@@ -5,6 +5,7 @@ RSpec.describe "Things", type: :request do
   let(:account) { signup FactoryGirl.attributes_for(:user) }
 
   context "quick API check" do
+
     let!(:user) { login account }
 
     it_should_behave_like "resource index", :thing
@@ -85,3 +86,4 @@ RSpec.describe "Things", type: :request do
     end
   end
 end
+

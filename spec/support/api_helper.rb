@@ -50,11 +50,13 @@ module ApiHelper
     @last_tokens || {}
   end
 
+
   def create_resource path, factory, status=:created
     jpost path, FactoryGirl.attributes_for(factory)
     expect(response).to have_http_status(status) if status
     parsed_body
   end
+
 
 
 end

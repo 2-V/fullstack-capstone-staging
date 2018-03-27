@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Thing, type: :model do
+
   include_context "db_cleanup_each"
 
   context "valid thing" do
@@ -21,3 +22,4 @@ RSpec.describe Thing, type: :model do
     end
   end
 end
+

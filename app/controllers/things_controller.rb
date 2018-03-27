@@ -8,6 +8,7 @@ class ThingsController < ApplicationController
   end
 
   def show
+
   end
 
   def create
@@ -46,5 +47,6 @@ class ThingsController < ApplicationController
       params.require(:thing).tap {|p|
         p.require(:name)
        }.permit(:name, :description, :notes)
+
     end
 end

@@ -21,6 +21,7 @@ class ApplicationController < ActionController::API
 		Rails.logger.debug exception.message
 	end
 
+
 	def missing_parameter(exception) 
        payload = {
          errors: { full_messages:["#{exception.message}"] }
@@ -29,6 +30,7 @@ class ApplicationController < ActionController::API
        Rails.logger.debug exception.message
      end
 	
+
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
 	end
