@@ -5,7 +5,7 @@
 		.module("spa-demo.bars")
 		.factory("spa-demo.bars.Bar", BarFactory);
 
-	BarFactory.$inject = ["$resource", "spa-demo.APP_CONFIG"];
+	BarFactory.$inject = ["$resource", "spa-demo.config.APP_CONFIG"];
 	function BarFactory($resource, APP_CONFIG) {
 		return $resource(APP_CONFIG.server_url + "/api/bars/:id",
 			{ id: '@id' },

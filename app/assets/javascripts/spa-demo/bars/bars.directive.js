@@ -5,7 +5,7 @@
 		.module("spa-demo.bars")
 		.directive("sdBars", BarsDirective);
 
-	BarsDirective.$inject = ["spa-demo.APP_CONFIG"];
+	BarsDirective.$inject = ["spa-demo.config.APP_CONFIG"];
 
 	function BarsDirective(APP_CONFIG) {
 		var directive = {
