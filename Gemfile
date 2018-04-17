@@ -18,7 +18,7 @@ group :development do
 end
 
 group :development, :test do
-	gem 'webrick', '~>1.3', '>=1.3.1'
+	gem 'webrick', '1.3.1'
 	gem 'httparty', '~>0.14', '>=0.14.0'
 	gem 'rspec-rails', '~> 3.5', '>=3.5.2'
 	gem 'byebug', '~>9.0', '>=9.0.6'
@@ -45,9 +45,9 @@ gem 'faker', '~>1.6', '>=1.6.6'
 
 source 'https://rails-assets.org' do
 	gem 'rails-assets-bootstrap', '~>3.3', '>=3.3.7'
-	gem 'rails-assets-angular', '~>1.5', '>=1.5.8'
+	gem 'rails-assets-angular', '1.5.10'
 	gem 'rails-assets-angular-ui-router', '~>0.3', '>=0.3.1'
-	gem 'rails-assets-angular-resource', '~>1.5', '>=1.5.8'
+	gem 'rails-assets-angular-resource', '1.5.10'
 	gem 'rails-assets-ng-token-auth', '~>0.0', '>= 0.0.27'
 	gem 'rails-assets-angular-cookie' #required by ng-token-auth
 end
