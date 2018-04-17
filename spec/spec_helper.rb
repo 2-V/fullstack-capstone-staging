@@ -41,7 +41,7 @@ require 'capybara/poltergeist'
 #set the default driver
 Capybara.configure do |config|
   config.default_driver = :rack_test
-  config.default_wait_time = 5
+  config.default_wait_time = 3
 
   #used when :js=>true
   config.javascript_driver = :selenium
