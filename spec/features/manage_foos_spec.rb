@@ -37,7 +37,9 @@ RSpec.feature "ManageFoos", type: :feature, :js=>true do
   	background(:each) do
   		visit root_path
   		expect(page).to have_css("h3", text:"Foos")
-  		expect(page).to have_css("li", count:0)
+      within(:xpath,FOO_LIST_XPATH) do
+    		expect(page).to have_css("li", count:0)
+      end
   	end
 
   	scenario "has input form" do
