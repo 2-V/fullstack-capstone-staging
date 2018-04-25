@@ -20,6 +20,12 @@ module UiHelper
 		end
 	end
 
+	def logged_in? account=nil
+		account ?
+			page.has_css?("#navbar-loginlabel",:text=>/#{account[:name]}/) :
+			page.has_css?("#user_id",:text=>/.+/, :visible=>false)
+	end
+
 	def fillin_login credentials
 	    visit root_path unless page.has_css?("#navbar-loginlabel")
 	    find("#navbar-loginlabel",:text=>"Login").click
@@ -35,12 +41,20 @@ module UiHelper
 	      click_button("Login")
 	    end
 
-	    using_wait_time 5 do
+	    using_wait_time 2 do
 	      expect(page).to have_no_css("#login-form")
 	    end
 	    expect(page).to have_css("#logout-form", :visible=>false)
 	    expect(page).to have_css("#navbar-loginlabel",:text=>/#{credentials[:name]}/)
 	    return credentials
+	  end
+
+	  def logout
+	  	if logged_in?
+	  		find("#navbar-loginlabel").click unless page.has_button?("Logout")
+	  		find_button("Logout",:wait=>2).click
+	  		expect(page).to have_no_css("#user_id",:visible=>false,:wait=>2)
+	 	end
 	  end
 		
 end
