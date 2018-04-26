@@ -19,6 +19,8 @@ require 'capybara/rspec'
 require_relative 'support/database_cleaners.rb'
 require_relative 'support/api_helper.rb'
 require_relative 'support/ui_helper.rb'
+require_relative 'support/subjects_ui_helper.rb'
+require_relative 'support/image_content_helper.rb'
 
 
 
