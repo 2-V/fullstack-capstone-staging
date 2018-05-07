@@ -43,6 +43,8 @@
       this.authz.canUpdate     = false;
       this.authz.canDelete     = false;
       this.authz.canGetDetails = false;
+      this.authz.canUpdateImage = false;
+      this.authz.canRemoveImage = false;
     }
 
     activate();
@@ -62,6 +64,8 @@
         vm.authz.canUpdate     = true,
         vm.authz.canDelete     = true,
         vm.authz.canGetDetails = true;
+        vm.authz.canUpdateImage = true;
+        vm.authz.canRemoveImage = true;
       } else {
         vm.resetAccess();
       }
