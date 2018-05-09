@@ -7,9 +7,9 @@ class User < ActiveRecord::Base
 
   has_many :roles, inverse_of: :user, dependent: :destroy
 
-  def has_role(role_list, mname=nil, mid=nil)
-  	role_names=roles.relevant(mname, mid).map {|r| r.role_name}
-  	(role_names & role_list).any?
+  def has_role(role_list, mname=nil, mid=nil) 
+    role_names=roles.relevant(mname, mid).map {|r| r.role_name}
+    (role_names & role_list).any?
   end
 
   def add_role role_name, object
@@ -30,6 +30,6 @@ class User < ActiveRecord::Base
   end
 
   def is_admin?
-    roles.where(:role_name=>Role::ADMIN).exists?
+     roles.where(:role_name=>Role::ADMIN).exists?
   end
 end

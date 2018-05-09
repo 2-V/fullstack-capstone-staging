@@ -5,7 +5,6 @@ class ApplicationPolicy
     @user = user
     @record = record
   end
-
   def organizer_or_admin?
     @user.has_role([Role::ADMIN, Role::ORGANIZER], @record.model_name.name, @record.id)
   end
@@ -21,7 +20,6 @@ class ApplicationPolicy
   def originator?
     @user.has_role([Role::ORIGINATOR], @record.name)
   end
-
 
   def index?
     false
@@ -67,7 +65,6 @@ class ApplicationPolicy
       scope
     end
 
-
     def user_criteria
       user_id = @user.id.to_i if @user     #to_i assists in avoiding SQL injection
       user_id ? "=#{user_id}" : "is null"
@@ -85,6 +82,5 @@ class ApplicationPolicy
         prev = r
       end
     }
-
   end
 end

@@ -1,23 +1,26 @@
 class ImagePolicy < ApplicationPolicy
   def index?
-  	true
+    true
   end
-
   def show?
-  	true
+    true
   end
   def create?
-  	@user
+    @user
   end
   def update?
-  	organizer?
+    organizer?
   end
   def destroy?
-  	organizer_or_admin?
+    organizer_or_admin?
+  end
+
+  def get_things?
+    true
   end
 
   class Scope < Scope
-  	def user_roles
+    def user_roles
       joins_clause=["left join Roles r on r.mname='Image'",
                     "r.mid=Images.id",
                     "r.user_id #{user_criteria}"].join(" and ")
