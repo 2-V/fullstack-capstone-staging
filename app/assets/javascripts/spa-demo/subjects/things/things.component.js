@@ -8,7 +8,10 @@
       controller: ThingEditorController,
       bindings: {
         authz: "<"
-      }
+      },
+      require: {
+        thingsAuthz: "^sdThingsAuthz"
+      }      
     })
     .component("sdThingSelector", {
       templateUrl: thingSelectorTemplateUrl,
@@ -31,10 +34,11 @@
 
   ThingEditorController.$inject = ["$scope","$q",
                                    "$state","$stateParams",
+                                   "spa-demo.authz.Authz",
                                    "spa-demo.subjects.Thing",
                                    "spa-demo.subjects.ThingImage"];
   function ThingEditorController($scope, $q, $state, $stateParams, 
-                                 Thing, ThingImage) {
+                                 Authz, Thing, ThingImage) {
     var vm=this;
     vm.create = create;
     vm.clear  = clear;
@@ -45,19 +49,21 @@
 
     vm.$onInit = function() {
       console.log("ThingEditorController",$scope);
-      if ($stateParams.id) {
-        // reload($stateParams.id);
-        $scope.$watch(function(){ return vm.authz.authenticated },
-                      function(){ reload($stateParams.id) });
-      } else {
-        newResource();
-      }
+      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); }, 
+                    function(){ 
+                      if ($stateParams.id) {
+                        reload($stateParams.id); 
+                      } else {
+                        newResource();
+                      }
+                    });
     }
 
     return;
     //////////////
     function newResource() {
       vm.item = new Thing();
+      vm.thingsAuthz.newItem(vm.item);
       return vm.item;
     }
 
@@ -66,6 +72,7 @@
       console.log("re/loading thing", itemId);
       vm.images = ThingImage.query({thing_id:itemId});
       vm.item = Thing.get({id:itemId});
+      vm.thingsAuthz.newItem(vm.item);
       vm.images.$promise.then(
         function(){
           angular.forEach(vm.images, function(ti){
@@ -79,13 +86,12 @@
         var ti=vm.images[i];
         if (ti.toRemove || ti.originalPriority != ti.priority) {
           return true;
-        }
+        }        
       }
       return false;
-    }
+    }    
 
     function create() {      
-      $scope.thingform.$setPristine();
       vm.item.errors = null;
       vm.item.$save().then(
         function(){
@@ -99,8 +105,8 @@
       newResource();
       $state.go(".",{id: null});    
     }
+
     function update() {      
-      $scope.thingform.$setPristine();
       vm.item.errors = null;
       var update=vm.item.$update();
       updateImageLinks(update);
@@ -128,7 +134,6 @@
         handleError);    
     }
 
-
     function remove() {      
       vm.item.$remove().then(
         function(){
@@ -139,7 +144,7 @@
     }
 
     function handleError(response) {
-      //console.log("error", response);
+      console.log("error", response);
       if (response.data) {
         vm.item["errors"]=response.data.errors;          
       } 
@@ -147,20 +152,25 @@
         vm.item["errors"]={}
         vm.item["errors"]["full_messages"]=[response]; 
       }      
+      $scope.thingform.$setPristine();
     }    
   }
 
   ThingSelectorController.$inject = ["$scope",
                                      "$stateParams",
+                                     "spa-demo.authz.Authz",
                                      "spa-demo.subjects.Thing"];
-  function ThingSelectorController($scope, $stateParams, Thing) {
+  function ThingSelectorController($scope, $stateParams, Authz, Thing) {
     var vm=this;
 
     vm.$onInit = function() {
       console.log("ThingSelectorController",$scope);
-      if (!$stateParams.id) {
-        vm.items = Thing.query();        
-      }
+      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); }, 
+                    function(){ 
+                      if (!$stateParams.id) {
+                        vm.items = Thing.query();        
+                      }
+                    });
     }
     return;
     //////////////

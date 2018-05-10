@@ -16,6 +16,9 @@
       bindings: {
         authz: "<"
       },
+      require: {
+        imagesAuthz: "^sdImagesAuthz"
+      }
     });
 
 
@@ -30,15 +33,19 @@
 
   ImageSelectorController.$inject = ["$scope",
                                      "$stateParams",
+                                     "spa-demo.authz.Authz",
                                      "spa-demo.subjects.Image"];
-  function ImageSelectorController($scope, $stateParams, Image) {
+  function ImageSelectorController($scope, $stateParams, Authz, Image) {
     var vm=this;
 
     vm.$onInit = function() {
       console.log("ImageSelectorController",$scope);
-      if (!$stateParams.id) {
-        vm.items = Image.query();
-      }
+      $scope.$watch(function(){ return Authz.getAuthorizedUserId; }, 
+                    function(){ 
+                      if (!$stateParams.id) { 
+                        vm.items = Image.query(); 
+                      }
+                    });
     }
     return;
     //////////////
@@ -47,45 +54,51 @@
 
   ImageEditorController.$inject = ["$scope","$q",
                                    "$state", "$stateParams",
+                                   "spa-demo.authz.Authz",                                   
                                    "spa-demo.subjects.Image",
                                    "spa-demo.subjects.ImageThing",
                                    "spa-demo.subjects.ImageLinkableThing",
                                    ];
   function ImageEditorController($scope, $q, $state, $stateParams, 
-                                 Image, ImageThing,ImageLinkableThing) {
+                                 Authz, Image, ImageThing,ImageLinkableThing) {
     var vm=this;
+    vm.selected_linkables=[];
     vm.create = create;
     vm.clear  = clear;
     vm.update  = update;
     vm.remove  = remove;
+    vm.linkThings = linkThings;
 
     vm.$onInit = function() {
       console.log("ImageEditorController",$scope);
-      if ($stateParams.id) {
-        // reload($stateParams.id);
-        $scope.$watch(function(){ return vm.authz.authenticated },
-                      function(){ reload($stateParams.id) });
-      } else {
-        newResource();
-      }
+      $scope.$watch(function(){ return Authz.getAuthorizedUserId(); }, 
+                    function(){ 
+                      if ($stateParams.id) {
+                        reload($stateParams.id);
+                      } else {
+                        newResource();
+                      }
+                    });
     }
     return;
     //////////////
     function newResource() {
+      console.log("newResource()");
       vm.item = new Image();
+      vm.imagesAuthz.newItem(vm.item);
       return vm.item;
     }
 
     function reload(imageId) {
       var itemId = imageId ? imageId : vm.item.id;
-      console.log("reloading image", itemId);
-      vm.item = Image.get({id:$stateParams.id});
+      console.log("re/loading image", itemId);
+      vm.item = Image.get({id:itemId});
       vm.things = ImageThing.query({image_id:itemId});
       vm.linkable_things = ImageLinkableThing.query({image_id:itemId});
+      vm.imagesAuthz.newItem(vm.item);
       $q.all([vm.item.$promise,
               vm.things.$promise]).catch(handleError);
     }
-
 
     function clear() {
       newResource();
@@ -93,7 +106,6 @@
     }
 
     function create() {
-      vm.item.errors = null;
       vm.item.$save().then(
         function(){
            $state.go(".", {id: vm.item.id}); 
@@ -108,21 +120,22 @@
     }
 
     function linkThings(parentPromise) {
-      var promises=[]
+      var promises=[];
       if (parentPromise) { promises.push(parentPromise); }
-      angular.forEach( vm.selected_linkables, function(linkable){
+      angular.forEach(vm.selected_linkables, function(linkable){
         var resource=ImageThing.save({image_id:vm.item.id}, {thing_id:linkable});
         promises.push(resource.$promise);
       });
 
       vm.selected_linkables=[];
       console.log("waiting for promises", promises);
-      $q.all(promises).then(function(response){
-        console.log("promise.all response", response);
-        $scope.imageform.$setPristine();
-        reload();
-      },
-      handleError);
+      $q.all(promises).then(
+        function(response){
+          console.log("promise.all response", response); 
+          $scope.imageform.$setPristine();
+          reload(); 
+        },
+        handleError);    
     }
 
     function remove() {
@@ -137,15 +150,15 @@
 
 
     function handleError(response) {
-      //console.log("error", response);
+      console.log("error", response);
       if (response.data) {
         vm.item["errors"]=response.data.errors;          
       } 
       if (!vm.item.errors) {
         vm.item["errors"]={}
         vm.item["errors"]["full_messages"]=[response]; 
-      }    
-      $scope.imageform.$setPristine();  
+      }      
+      $scope.imageform.$setPristine();
     }    
   }
 
