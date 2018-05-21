@@ -2,11 +2,9 @@ Rails.application.routes.draw do
   
 
   get 'authn/whoami', defaults: {format: :json}
-
   get 'authn/checkme'
 
   mount_devise_token_auth_for 'User', at: 'auth'
-
 
   scope :api, defaults: {format: :json} do
     resources :bars, except: [:new, :edit]
@@ -21,7 +19,10 @@ Rails.application.routes.draw do
       resources :thing_images, only: [:index, :create, :update, :destroy]
     end
     get "images/:id/content", as: :image_content, controller: :images, action: :content, defaults:{format: :jpg}
-  end
+    get 'geocoder/addresses' => "geocoder#addresses"
+    get 'geocoder/positions' => "geocoder#positions"
+    get 'subjects' => "thing_images#subjects"
+  end  
   
   get '/ui' => 'ui#index'
   get '/ui#' => 'ui#index'

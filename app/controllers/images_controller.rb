@@ -1,6 +1,6 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :update, :destroy, :content]
-  wrap_parameters :image, include: ["caption"]
+  wrap_parameters :image, include: ["caption", "position"]
   before_action :authenticate_user!, only: [:create, :update, :destroy]
   after_action :verify_authorized, except: [:content]
   after_action :verify_policy_scoped, only: [:index]
@@ -22,7 +22,7 @@ class ImagesController < ApplicationController
   def content
     result=ImageContent.image(@image).smallest(params[:width],params[:height]).first
     if result
-      expires_in 1.year, :public=>true
+      expires_in 1.year, :public=>true 
       if stale? result
         options = { type: result.content_type,
                     disposition: "inline",
@@ -80,7 +80,7 @@ class ImagesController < ApplicationController
     end
 
     def image_params
-      params.require(:image).permit(:caption)
+      params.require(:image).permit(:caption,:position=>[:lng,:lat])
     end
 
     def image_content_params
@@ -92,14 +92,14 @@ class ImagesController < ApplicationController
 
     def contents_error exception
       render json: {errors:{full_messages:["unable to create image contents","#{exception}"]}},
-      status: :unprocessable_entity
+            status: :unprocessable_entity
       Rails.logger.debug exception
     end
 
-    def mongoid_validation_error(exception)
+    def mongoid_validation_error(exception) 
       payload = { errors:exception.record.errors.messages
-                  .slice(:content_type,:content,:full_messages)
-                  .merge(full_messages:["unable to create image contents"])}
+                     .slice(:content_type,:content,:full_messages) 
+                     .merge(full_messages:["unable to create image contents"])}
       render :json=>payload, :status=>:unprocessable_entity
       Rails.logger.debug exception.message
     end
