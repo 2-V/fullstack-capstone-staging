@@ -35,10 +35,20 @@
 //= require spa-demo/layout/image_loader/image_loader.component
 //= require spa-demo/layout/image_viewer/image_viewer.component
 
+//= require spa-demo/layout/tabs/tabs.component
+//= require spa-demo/layout/areas/areas.component
+
 //= require spa-demo/foos/foos.module
 //= require spa-demo/foos/foos.service
 //= require spa-demo/foos/foos.controller
 //= require spa-demo/foos/foos.directive
+
+//= require spa-demo/geoloc/geoloc.module
+//= require spa-demo/geoloc/geocoder.service
+//= require spa-demo/geoloc/my_location.service
+//= require spa-demo/geoloc/jhu_location.config
+//= require spa-demo/geoloc/current_origin/current_origin.service
+//= require spa-demo/geoloc/current_origin/current_origin_selector.component
 
 //= require spa-demo/subjects/subjects.module
 //= require spa-demo/subjects/images/images.service
