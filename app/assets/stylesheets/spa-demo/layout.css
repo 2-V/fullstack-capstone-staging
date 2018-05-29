@@ -116,6 +116,11 @@ div.area-pane div.tab-content div.tab-pane div#map {
   height: 100%;
 }
 
+div.image-marker-info span.id.image_id, 
+div.image-marker-info span.id.thing_id {
+  display:none;
+}
+
 /********************************/
 
 [readonly='readonly'] {

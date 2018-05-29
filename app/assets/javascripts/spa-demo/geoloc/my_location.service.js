@@ -22,7 +22,7 @@
 
       //returns true/false whether current location provided
       MyLocation.prototype.isCurrentLocationSupported = function() {   
-        console.log("isCurrentLocationSupported", $window.navigator.geolocation != null);
+        // console.log("isCurrentLocationSupported", $window.navigator.geolocation != null);
         return $window.navigator.geolocation != null;     
       }
 

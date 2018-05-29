@@ -5,7 +5,7 @@
     .module("spa-demo.config", [])
     .constant("spa-demo.config.APP_CONFIG", {
       server_url: "<%= ENV['RAILS_API_URL'] %>",
-      default_position: {"lng":-76.61183685064316, "lat":39.28583496489344},
+      default_position: {"lng":-86.39965985064316, "lat":35.81303896489344},
 
       main_page_html: "<%= asset_path('spa-demo/pages/main.html') %>",
       signup_page_html: "<%= asset_path('spa-demo/pages/signup_page.html') %>",
@@ -35,6 +35,12 @@
       current_image_viewer_html: "<%= asset_path('spa-demo/subjects/current_images/current_image_viewer.html') %>",
       current_things_html: "<%= asset_path('spa-demo/subjects/current_things/current_things.html') %>",
       current_thing_info_html: "<%= asset_path('spa-demo/subjects/current_things/current_thing_info.html') %>",
+
+      optimized_markers: <%= ENV['OPTIMIZED_MARKERS']!=nil && ENV['OPTIMIZED_MARKERS'].downcase=='false' %>,
+      origin_marker: "<%= asset_path('spa-demo/geoloc/markers/marker-red-32x44.png') %>",
+      thing_marker: "<%= asset_path('spa-demo/geoloc/markers/marker-black-32x44.png') %>",
+      secondary_marker: "<%= asset_path('spa-demo/geoloc/markers/marker-grey-32x44.png') %>",
+      orphan_marker: "<%= asset_path('spa-demo/geoloc/markers/marker-yellow-32x44.png') %>",
     });
 
 })();
